@@ -1,0 +1,96 @@
+package billingSystem;
+import java.util.Scanner;
+
+public class BillingSystem {
+	public static Scanner scan = new Scanner(System.in);
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		billing();
+	}
+	
+	public static void billing() {
+		
+		double total = 150;
+		double discount_percentage = 50;
+		double totalWithDiscount = calculateTotalwithDiscount(total, discount_percentage);
+		double payment = 0;
+		double change = 0;
+		String paymentMethod = "";
+		
+		boolean valid = false; // to check if the user enter valid payment amount
+		System.out.println(totalWithDiscount);
+		System.out.print("Enter payment: ");
+		payment = scan.nextDouble();
+		if(payment >= totalWithDiscount) {
+			valid = true;
+			change = calculateChange(totalWithDiscount, payment);
+		}
+		else {
+			while(!valid) {
+				System.out.println("\nERROR: INSUFFICIENT AMOUNT! \n");
+				System.out.print("Enter payment: ");
+				payment = scan.nextDouble();
+				
+				if(payment >= totalWithDiscount) {
+					valid = true;
+					change = calculateChange(totalWithDiscount, payment);
+				}
+				// to check if the amount of payment will satisfy the condition of the total payment
+			}
+		}
+		
+		System.out.println("\n\n\n");
+		
+		boolean validPM = false; // to check the validity of the option
+		do{			
+			System.out.println("PAYMENT METHOD:");
+			System.out.println("\t 1. CASH");
+			System.out.println("\t 2. CARD");
+			System.out.println("\t 3. E-PAYMENT");
+			System.out.print("Enter Option: ");
+			char option = scan.next().charAt(0);
+			
+			switch(option) {
+			case '1':
+				paymentMethod = "CASH";
+				validPM = true;
+				break;
+			case '2':
+				paymentMethod = "CARD";
+				validPM = true;
+				break;
+			case '3':
+				paymentMethod = "E-PAYMENT";
+				validPM = true;
+				break;
+		    default:
+		    	System.out.println("INVALID INPUT. PLEASE TRY AGAIN \n");
+			}
+		}while(!validPM);
+		
+		System.out.println("\n\n\n\n\n\n\n");
+					
+		System.out.println("TOTAL: " + total);
+		System.out.println("DISCOUNT: " + discount_percentage + " %");		
+		System.out.println("TOTAL WITH DISCOUNT: " + totalWithDiscount);
+		System.out.println("Change: " + change);
+		System.out.println("PAYMENT METHOD: " + paymentMethod);
+		System.out.println("\n\nThankyou For Using our System, Come again :))");
+		
+	}
+	
+	public static double calculateTotalwithDiscount(double total, double percentage) {
+		double percentage_Decimal = percentage / 100;
+		double discount = total * percentage_Decimal;
+		
+		double totalWithDiscount = total - discount;
+		
+		return totalWithDiscount;
+	}
+	
+	public static double calculateChange(double totalWithDiscount, double payment) {
+		double change = payment - totalWithDiscount;	
+		return change;
+	}
+}
+
